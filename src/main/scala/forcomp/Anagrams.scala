@@ -35,19 +35,20 @@ object Anagrams {
    */
   def wordOccurrences(w: Word): Occurrences = {
     /** 
-     * Lowercase the String and convert the String into List[Char], e.g. "ab" to List("a", "b")
+     * Lowercase the String and convert the String into List[Char], e.g. 'ab' to List('a', 'b')
      * Group the List[Char] to List[(Char, List(Char))] 
-     * e.g. List("a", "b") to List(("a", List("a")), ("b", List("b")))
+     * e.g. List('a', 'b') to List(('a', List('a')), ('b', List('b')))
      * Map the List[(Char, List(Char))] to List[(Char, Int)]
-     * e.g. List(("a", List("a")), ("b", List("b"))) to List(("a", 1), ("b", 1))
-     * Finally sort the List(("a", 1), ("b", 1))
+     * e.g. List(('a', List('a')), ('b', List('b'))) to List(('a', 1), ('b', 1))
+     * Finally sort the List(('a', 1), ('b', 1))
      */
     (((w.toLowerCase.toList.groupBy((ch: Char) => ch)).toList) map 
       (pair => (pair._1, pair._2.length))).sortWith((x, y) => (x._1 < y._1))
   }
 
   /** Converts a sentence into its character occurrence list. */
-  def sentenceOccurrences(s: Sentence): Occurrences = ???
+  def sentenceOccurrences(s: Sentence): Occurrences =
+     wordOccurrences((for {w <- s} yield w.toList).flatten.mkString)
 
   /** The `dictionaryByOccurrences` is a `Map` from different occurrences to a sequence of all
    *  the words that have that occurrence count.
