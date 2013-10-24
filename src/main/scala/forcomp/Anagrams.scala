@@ -94,7 +94,47 @@ object Anagrams {
    *  Note that the order of the occurrence list subsets does not matter -- the subsets
    *  in the example above could have been displayed in some other order.
    */
-  def combinations(occurrences: Occurrences): List[Occurrences] = ???
+  def combinations(occurrences: Occurrences): List[Occurrences] = {
+    /**
+     Expand List(('a', 2), ('b', 2)) to 
+     List(('a', 1), ('a', 2), ('b', 1), ('b', 2))
+     */
+    var subset1 =
+    (for {occ <- occurrences} yield
+      occ match {
+        case (ch1, n1) => 
+         for {n <- (1 to n1)} yield
+           (ch1, n)
+      }).flatten
+
+    /**
+     Expand List(('a', 1), ('a', 2), ('b', 1), ('b', 2)) to
+     List(List((a,1), (b,1)), List((a,1), (b,2)), List((a,2), (b,1)), List((a,2), (b,2)))
+     */
+    var subset2 =
+    (for {
+      r1 <- subset1
+      r2 <- subset1
+      if (r1._1 < r2._1)
+      } yield {
+        List(r1, r2)
+      }
+     ).distinct
+
+    /**
+     Convert List(('a', 1), ('a', 2), ('b', 1), ('b', 2))
+     List(List((a,1)), List((a,2)), List((b,1)), List((b,2)))
+     */
+    var subset3: List[Occurrences] = subset1 map (List(_))
+
+    /**
+     Concat previous lists and add an empty Occurrences list
+     */
+    var subset4: List[Occurrences] = subset2 ::: subset3
+    var emptyset: List[Occurrences] = List(List())
+    var subset5: List[Occurrences] = emptyset ::: subset4
+    subset5
+  }
 
   /** Subtracts occurrence list `y` from occurrence list `x`.
    * 
