@@ -99,7 +99,7 @@ object Anagrams {
      Expand List(('a', 2), ('b', 2)) to 
      List(('a', 1), ('a', 2), ('b', 1), ('b', 2))
      */
-    var subset1 =
+    val subset1 =
     (for {occ <- occurrences} yield
       occ match {
         case (ch1, n1) => 
@@ -111,7 +111,7 @@ object Anagrams {
      Expand List(('a', 1), ('a', 2), ('b', 1), ('b', 2)) to
      List(List((a,1), (b,1)), List((a,1), (b,2)), List((a,2), (b,1)), List((a,2), (b,2)))
      */
-    var subset2 =
+    val subset2 =
     (for {
       r1 <- subset1
       r2 <- subset1
@@ -125,14 +125,14 @@ object Anagrams {
      Convert List(('a', 1), ('a', 2), ('b', 1), ('b', 2))
      List(List((a,1)), List((a,2)), List((b,1)), List((b,2)))
      */
-    var subset3: List[Occurrences] = subset1 map (List(_))
+    val subset3: List[Occurrences] = subset1 map (List(_))
 
     /**
      Concat previous lists and add an empty Occurrences list
      */
-    var subset4: List[Occurrences] = subset2 ::: subset3
-    var emptyset: List[Occurrences] = List(List())
-    var subset5: List[Occurrences] = emptyset ::: subset4
+    val subset4: List[Occurrences] = subset2 ::: subset3
+    val emptyset: List[Occurrences] = List(List())
+    val subset5: List[Occurrences] = emptyset ::: subset4
     subset5
   }
 
